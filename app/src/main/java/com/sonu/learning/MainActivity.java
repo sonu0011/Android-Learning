@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.loader.content.AsyncTaskLoader;
 
 import android.content.Context;
+import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.PersistableBundle;
@@ -29,6 +30,14 @@ public class MainActivity extends AppCompatActivity {
         textView = findViewById(R.id.tv);
         imageView = findViewById(R.id.imageView);
         downloader = new ImageDownloader(this);
+        downloader.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,"First ");
+        new ImageDownloader(this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,"second");
+    runOnUiThread(new Runnable() {
+        @Override
+        public void run() {
+
+        }
+    });
 //        downloader.execute("fsdf");
 //        downloader.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "intial value");
     }
@@ -40,12 +49,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void clickMe(View view) {
+//        try {
+////            Thread.sleep(5000);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
 //        downloader.cancel(true);
-        new ImageDownloader(this).execute("fsd");
 //        new ImageDownloader().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR , "value");
     }
 
     static class AsynckTasl extends AsyncTaskLoader<String> {
+
 
         public AsynckTasl(@NonNull Context context) {
             super(context);
@@ -59,26 +73,31 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    static class ImageDownloader extends AsyncTask<String, String, String> {
+
+      class ImageDownloader extends AsyncTask<String, String, String> {
 
         private WeakReference<MainActivity> reference;
-
         public ImageDownloader(MainActivity activity) {
             reference = new WeakReference<>(activity);
         }
 
         @Override
         protected String doInBackground(String... strings) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
 
+                }
+            });
             Log.d(TAG, "doInBackground:  thread name " + Thread.currentThread().getName());
-            for (int i = 0; i < 5; i++) {
+            for (int i = 0; i < 10; i++) {
                 if (isCancelled()) {
                     return "task cancelled";
                 }
                 try {
                     Thread.sleep(1000);
                     publishProgress(String.valueOf(i));
-                    Log.d(TAG, "doInBackground: i value is " + i);
+                    Log.d(TAG, "doInBackground: "+ strings[0]+ " i value is " + i);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
