@@ -11,18 +11,25 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Learning">
-        <activity android:name=".ThreadingExamples">
+        <activity android:name=".BroadcastExamples">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".ThreadingExamples">
 
         </activity>
-        <activity android:name=".LoaderExample">
+        <activity android:name=".LoaderExample" />
+        <activity android:name=".MainActivity" />
 
-        </activity>
-        <activity android:name=".MainActivity"></activity>
+        <receiver android:name=".br.MyBroadcastReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
