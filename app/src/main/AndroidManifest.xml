@@ -3,6 +3,7 @@
     package="com.sonu.learning">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:allowBackup="true"
@@ -26,8 +27,7 @@
 
         <receiver android:name=".br.MyBroadcastReceiver">
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+                <action android:name="com.sonu.learning" />
             </intent-filter>
         </receiver>
     </application>
