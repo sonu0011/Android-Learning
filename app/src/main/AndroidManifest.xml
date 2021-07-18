@@ -2,10 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.sonu.learning">
 
-    <permission android:name="com.sonu.learning.CUSTOM_PERMISSION" />
-
-<!--    required by sender app for sending broadcast-->
-    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <permission android:name="com.sonu.learning.CUSTOM_PERMISSION" /> <!-- required by sender app for sending broadcast -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
 
     <application
         android:allowBackup="true"
@@ -14,35 +13,37 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Learning">
-        <activity android:name=".BroadcastExamples">
+        <service
+            android:name=".services.MyIntentService"
+            android:exported="false" />
+
+        <activity android:name=".services.ServiceActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ThreadingExamples">
-
-        </activity>
+        <activity android:name=".BroadcastExamples" />
+        <activity android:name=".ThreadingExamples" />
         <activity android:name=".LoaderExample" />
-        <activity android:name=".MainActivity" />
-
-        <receiver
-            android:name=".br.MyBroadcastReceiver2"
-            android:permission="android.permission.INTERNET">
-            <intent-filter android:priority="1">
-                <action android:name="com.sonu.learning" />
-            </intent-filter>
-        </receiver>
-
-        <receiver
-            android:name=".br.MyBroadcastReceiver3"
-            android:permission="com.sonu.learning.CUSTOM_PERMISSION">
-            <intent-filter android:priority="3">
-                <action android:name="com.sonu.learning" />
-            </intent-filter>
-        </receiver>
-
+        <activity android:name=".MainActivity" /> <!-- <receiver -->
+        <!-- android:name=".br.MyBroadcastReceiver2" -->
+        <!-- android:permission="android.permission.INTERNET"> -->
+        <!-- <intent-filter android:priority="1"> -->
+        <!-- <action android:name="com.sonu.learning" /> -->
+        <!-- </intent-filter> -->
+        <!-- </receiver> -->
+        <!-- <receiver -->
+        <!-- android:name=".br.MyBroadcastReceiver3" -->
+        <!-- android:permission="com.sonu.learning.CUSTOM_PERMISSION"> -->
+        <!-- <intent-filter android:priority="3"> -->
+        <!-- <action android:name="com.sonu.learning" /> -->
+        <!-- </intent-filter> -->
+        <!-- </receiver> -->
+        <service android:name=".services.SongDownloaderService" />
+        <service android:name=".boundServices.MusicBindService" />
+        <service android:name=".services.MyForegroundService"/>
     </application>
 
 </manifest>
