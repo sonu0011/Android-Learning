@@ -11,6 +11,8 @@ import androidx.core.app.NotificationCompat;
 
 import com.sonu.learning.R;
 
+import static com.sonu.learning.App.CHANNEL_ID;
+
 public class MyForegroundService extends Service {
     private static final String TAG = "####MyForegroundService";
 
@@ -35,11 +37,10 @@ public class MyForegroundService extends Service {
     }
 
     private void ShowNotification() {
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), "channelId");
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), CHANNEL_ID);
         builder.setSmallIcon(R.mipmap.ic_launcher)
                 .setContentText("Music notificaiton")
-                .setContentText("Music descirption");
-
+                .setContentTitle("Music Tile");
         Notification notification = builder.build();
         startForeground(1, notification);
     }
@@ -48,5 +49,11 @@ public class MyForegroundService extends Service {
     public IBinder onBind(Intent intent) {
         // TODO: Return the communication channel to the service.
         throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG, "onDestroy: ");
     }
 }
