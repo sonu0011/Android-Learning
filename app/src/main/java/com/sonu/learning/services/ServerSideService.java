@@ -71,18 +71,18 @@ public class ServerSideService extends Service {
         Toast.makeText(this, "service stops", Toast.LENGTH_SHORT).show();
     }
 
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.d(TAG, "onStartCommand: ");
-        mIsRandomGeneratorOn = true;
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                startRandomNumberGenerator();
-            }
-        }).start();
-        return START_STICKY;
-    }
+//    @Override
+//    public int onStartCommand(Intent intent, int flags, int startId) {
+//        Log.d(TAG, "onStartCommand: ");
+//        mIsRandomGeneratorOn = true;
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                startRandomNumberGenerator();
+//            }
+//        }).start();
+//        return START_STICKY;
+//    }
 
     private void startRandomNumberGenerator() {
         while (mIsRandomGeneratorOn) {

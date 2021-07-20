@@ -43,7 +43,6 @@ public class ServiceActivity extends AppCompatActivity {
             mConnected = true;
             MusicBindService.MyBinder myBinder = (MusicBindService.MyBinder) binder;
             service = myBinder.getMusicBindService();
-            Messenger messenger = new Messenger(binder);
         }
 
         @Override
@@ -96,24 +95,26 @@ public class ServiceActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        Intent intent = new Intent(this, MyForegroundService.class);
-        startService(intent);
-        LocalBroadcastManager.getInstance(this).registerReceiver(receiver, new IntentFilter("songCompleted"));
-        LocalBroadcastManager.getInstance(this).registerReceiver(receiver, new IntentFilter(MUSIC_COMPLETE));
+//        Intent intent = new Intent(this, MyForegroundService.class);
+//        startService(intent);
+//        LocalBroadcastManager.getInstance(this).registerReceiver(receiver, new IntentFilter("songCompleted"));
+//        LocalBroadcastManager.getInstance(this).registerReceiver(receiver, new IntentFilter(MUSIC_COMPLETE));
     }
+
 
     @Override
     protected void onStop() {
         super.onStop();
 //        unbindService(serviceConnection);
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver);
-        Message.obtain(null , 0);
+//        LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver);
+//        Message.obtain(null, 0);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         // stopService(new Intent(this, SongDownloaderService.class));
+//        startService(new Intent(this, ServerSideService.class));
     }
 
     public void downloadSong(View view) {
