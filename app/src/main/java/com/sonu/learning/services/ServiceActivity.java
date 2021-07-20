@@ -11,6 +11,8 @@ import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.os.Message;
+import android.os.Messenger;
 import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
@@ -41,6 +43,7 @@ public class ServiceActivity extends AppCompatActivity {
             mConnected = true;
             MusicBindService.MyBinder myBinder = (MusicBindService.MyBinder) binder;
             service = myBinder.getMusicBindService();
+            Messenger messenger = new Messenger(binder);
         }
 
         @Override
@@ -104,6 +107,7 @@ public class ServiceActivity extends AppCompatActivity {
         super.onStop();
 //        unbindService(serviceConnection);
         LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver);
+        Message.obtain(null , 0);
     }
 
     @Override
