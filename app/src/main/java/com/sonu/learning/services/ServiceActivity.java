@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.sonu.learning.R;
 import com.sonu.learning.boundServices.MusicBindService;
+import com.sonu.learning.postOreo.MyJobIntentService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +44,7 @@ public class ServiceActivity extends AppCompatActivity {
             mConnected = true;
             MusicBindService.MyBinder myBinder = (MusicBindService.MyBinder) binder;
             service = myBinder.getMusicBindService();
+
         }
 
         @Override
@@ -94,6 +96,8 @@ public class ServiceActivity extends AppCompatActivity {
 
     @Override
     protected void onStart() {
+        MyJobIntentService.enqueueWork(this,new Intent(this , MyJobIntentService.class));
+//        bindService(new Intent(this , MusicBindService.class), serviceConnection , BIND_AUTO_CREATE);
         super.onStart();
 //        Intent intent = new Intent(this, MyForegroundService.class);
 //        startService(intent);
