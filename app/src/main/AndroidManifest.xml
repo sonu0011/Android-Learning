@@ -6,7 +6,7 @@
     <!-- required for jobIntentService for executing service while device in doze mode ie.when the screen is off -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:name=".App"
@@ -55,6 +55,11 @@
         <service
             android:name=".services.ServerSideService"
             android:exported="true" />
+
+        <service
+            android:name=".postOreo.MyJobService"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+
 
     </application>
 

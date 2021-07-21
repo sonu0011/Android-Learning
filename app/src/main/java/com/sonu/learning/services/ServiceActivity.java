@@ -1,14 +1,18 @@
 package com.sonu.learning.services;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.Message;
@@ -23,6 +27,7 @@ import android.widget.Toast;
 import com.sonu.learning.R;
 import com.sonu.learning.boundServices.MusicBindService;
 import com.sonu.learning.postOreo.MyJobIntentService;
+import com.sonu.learning.postOreo.MyJobService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +42,7 @@ public class ServiceActivity extends AppCompatActivity {
     private Button playMusic;
     private boolean mConnected = false;
     private MusicBindService service;
+    int count = 0;
     private ServiceConnection serviceConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder binder) {
@@ -96,7 +102,6 @@ public class ServiceActivity extends AppCompatActivity {
 
     @Override
     protected void onStart() {
-        MyJobIntentService.enqueueWork(this,new Intent(this , MyJobIntentService.class));
 //        bindService(new Intent(this , MusicBindService.class), serviceConnection , BIND_AUTO_CREATE);
         super.onStart();
 //        Intent intent = new Intent(this, MyForegroundService.class);
@@ -121,12 +126,40 @@ public class ServiceActivity extends AppCompatActivity {
 //        startService(new Intent(this, ServerSideService.class));
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void downloadSong(View view) {
-        for (int i = 0; i < songList.size(); i++) {
-            Intent intent = new Intent(this, MyIntentService.class);
-            intent.putExtra("songName", songList.get(i));
-            startService(intent);
-//            SystemClock.sleep(6000);
+//        for (int i = 0; i < songList.size(); i++) {
+//            Intent intent = new Intent(this, MyIntentService.class);
+//            intent.putExtra("songName", songList.get(i));
+//            startService(intent);
+////            SystemClock.sleep(6000);
+//        }
+
+//        MyJobIntentService.enqueueWork(this,new Intent(this , MyJobIntentService.class).putExtra("starter" , ++count));
+
+        ComponentName componentName = new ComponentName(this, MyJobService.class);
+        JobInfo info = new JobInfo.Builder(123, componentName)
+                .setRequiresCharging(false)
+                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_CELLULAR)
+                .setPersisted(true) //for device reboot persis
+                .setPeriodic(15 * 60 * 1000)
+                .build();
+
+        JobScheduler jobScheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
+
+        int resultCode = jobScheduler.schedule(info);
+        if (resultCode == JobScheduler.RESULT_SUCCESS) {
+            Log.d(TAG, "Job scheduled successfully");
+
+        } else {
+            Log.d(TAG, "job scheduled error ");
         }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    public void cancelJob(View v) {
+        JobScheduler scheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
+        scheduler.cancel(123);
+        Log.d(TAG, "Job cancelled");
     }
 }

@@ -30,21 +30,26 @@ public class MyJobIntentService extends JobIntentService {
         Log.d(TAG, "onDestroy: ");
     }
 
+    //gets called when ths system kill the service due to source chunk
     @Override
     public boolean onStopCurrentWork() {
         Log.d(TAG, "onStopCurrentWork: ");
-
-        return super.onStopCurrentWork();
+        //when the job is killed by system
+        //return true to reschedule job later
+        return false;
     }
 
     @Override
     protected void onHandleWork(@NonNull Intent intent) {
         Log.d(TAG, "onHandleWork: threadName " + Thread.currentThread().getName());
+//        for (int i = 0; i < 5; i++) {
+
         while (true) {
             if (isStopped()) return;
             SystemClock.sleep(1000);
             int a = new Random().nextInt(1000);
-            Log.d(TAG, "onHandleWork: random numb is " + a);
+            Log.d(TAG, "onHandleWork: random numb is " + a + " starter is " + intent.getIntExtra("starter", 0));
         }
+       // stopSelf();
     }
 }
