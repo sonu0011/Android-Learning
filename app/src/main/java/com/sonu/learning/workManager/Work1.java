@@ -49,6 +49,7 @@ public class Work1 extends Worker {
         while (true) {
             SystemClock.sleep(1000);
             Log.d(TAG, "generateRandmonNumber: random no is " + new Random().nextInt(1000));
+            //github issue fixes
         }
     }
 
