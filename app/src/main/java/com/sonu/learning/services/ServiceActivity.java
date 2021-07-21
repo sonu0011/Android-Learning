@@ -2,6 +2,7 @@ package com.sonu.learning.services;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import android.app.job.JobInfo;
@@ -137,23 +138,25 @@ public class ServiceActivity extends AppCompatActivity {
 
 //        MyJobIntentService.enqueueWork(this,new Intent(this , MyJobIntentService.class).putExtra("starter" , ++count));
 
-        ComponentName componentName = new ComponentName(this, MyJobService.class);
-        JobInfo info = new JobInfo.Builder(123, componentName)
-                .setRequiresCharging(false)
-                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_CELLULAR)
-                .setPersisted(true) //for device reboot persis
-                .setPeriodic(15 * 60 * 1000)
-                .build();
+//        ComponentName componentName = new ComponentName(this, MyJobService.class);
+//        JobInfo info = new JobInfo.Builder(123, componentName)
+//                .setRequiresCharging(false)
+//                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_CELLULAR)
+//                .setPersisted(true) //for device reboot persis
+//                .setPeriodic(15 * 60 * 1000)
+//                .build();
+//
+//        JobScheduler jobScheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
+//
+//        int resultCode = jobScheduler.schedule(info);
+//        if (resultCode == JobScheduler.RESULT_SUCCESS) {
+//            Log.d(TAG, "Job scheduled successfully");
+//
+//        } else {
+//            Log.d(TAG, "job scheduled error ");
+//        }
 
-        JobScheduler jobScheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
-
-        int resultCode = jobScheduler.schedule(info);
-        if (resultCode == JobScheduler.RESULT_SUCCESS) {
-            Log.d(TAG, "Job scheduled successfully");
-
-        } else {
-            Log.d(TAG, "job scheduled error ");
-        }
+        ContextCompat.startForegroundService(this, new Intent(this, MyForegroundService.class));
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)

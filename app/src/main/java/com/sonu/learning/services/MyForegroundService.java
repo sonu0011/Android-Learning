@@ -4,6 +4,7 @@ import android.app.Notification;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
+import android.os.Message;
 import android.os.SystemClock;
 import android.util.Log;
 
@@ -15,7 +16,6 @@ import static com.sonu.learning.App.CHANNEL_ID;
 
 public class MyForegroundService extends Service {
     private static final String TAG = "####MyForegroundService";
-
     public MyForegroundService() {
     }
 
@@ -29,8 +29,8 @@ public class MyForegroundService extends Service {
                     SystemClock.sleep(2000);
                     Log.d(TAG, "run: service is running");
                 }
-                stopForeground(true);
-                stopSelf();
+                //stopForeground(true);
+            //    stopSelf();
             }
         }).start();
         return START_STICKY;
