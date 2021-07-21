@@ -2,38 +2,34 @@ package com.sonu.learning.services;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
+import androidx.work.WorkRequest;
 
-import android.app.job.JobInfo;
-import android.app.job.JobScheduler;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.os.Message;
-import android.os.Messenger;
-import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.sonu.learning.R;
 import com.sonu.learning.boundServices.MusicBindService;
-import com.sonu.learning.postOreo.MyJobIntentService;
-import com.sonu.learning.postOreo.MyJobService;
+import com.sonu.learning.workManager.Work1;
+import com.sonu.learning.workManager.Work2;
+import com.sonu.learning.workManager.Work3;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-
-import static com.sonu.learning.boundServices.MusicBindService.MUSIC_COMPLETE;
+import java.util.concurrent.TimeUnit;
 
 public class ServiceActivity extends AppCompatActivity {
     List<String> songList = new ArrayList<>();
@@ -43,6 +39,8 @@ public class ServiceActivity extends AppCompatActivity {
     private Button playMusic;
     private boolean mConnected = false;
     private MusicBindService service;
+    private WorkManager workManager;
+    private WorkRequest workRequest1, workRequest2, workRequest3;
     int count = 0;
     private ServiceConnection serviceConnection = new ServiceConnection() {
         @Override
@@ -51,6 +49,7 @@ public class ServiceActivity extends AppCompatActivity {
             mConnected = true;
             MusicBindService.MyBinder myBinder = (MusicBindService.MyBinder) binder;
             service = myBinder.getMusicBindService();
+
 
         }
 
@@ -99,6 +98,12 @@ public class ServiceActivity extends AppCompatActivity {
         songList.add("stu");
         songList.add("vwx");
         songList.add("yz");
+
+        workManager = WorkManager.getInstance(getApplicationContext());
+//        workRequest = new PeriodicWorkRequest.Builder(Work1.class, 15, TimeUnit.MINUTES).build();
+        workRequest1 = new OneTimeWorkRequest.Builder(Work1.class).addTag("worker1").build();
+        workRequest2 = new OneTimeWorkRequest.Builder(Work2.class).addTag("worker2").build();
+        workRequest3 = new OneTimeWorkRequest.Builder(Work3.class).addTag("worker3").build();
     }
 
     @Override
@@ -156,13 +161,21 @@ public class ServiceActivity extends AppCompatActivity {
 //            Log.d(TAG, "job scheduled error ");
 //        }
 
-        ContextCompat.startForegroundService(this, new Intent(this, MyForegroundService.class));
+//        ContextCompat.startForegroundService(this, new Intent(this, MyForegroundService.class));
+//        workManager.enqueue(workRequest);
+//        workManager.beginWith((OneTimeWorkRequest) workRequest1).then((OneTimeWorkRequest) workRequest2).then((OneTimeWorkRequest) workRequest3).enqueue();
+//        workManager.beginWith(Arrays.asList((OneTimeWorkRequest) workRequest1, (OneTimeWorkRequest) workRequest2)).then((OneTimeWorkRequest) workRequest3).enqueue();
+        workManager.enqueue(workRequest1);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+
+    //    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void cancelJob(View v) {
-        JobScheduler scheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
-        scheduler.cancel(123);
-        Log.d(TAG, "Job cancelled");
+//        JobScheduler scheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
+//        scheduler.cancel(123);
+//        Log.d(TAG, "Job cancelled");
+
+//        workManager.cancelWorkById(workRequest.getId());
+        workManager.cancelAllWorkByTag("worker1");
     }
 }

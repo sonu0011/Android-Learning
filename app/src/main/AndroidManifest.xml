@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.sonu.learning">
 
     <permission android:name="com.sonu.learning.CUSTOM_PERMISSION" /> <!-- required by sender app for sending broadcast -->
@@ -59,7 +60,11 @@
         <service
             android:name=".postOreo.MyJobService"
             android:permission="android.permission.BIND_JOB_SERVICE" />
-
+        <service
+            android:name="androidx.work.impl.foreground.SystemForegroundService"
+            android:foregroundServiceType="location|dataSync"
+            tools:ignore="Instantiatable"
+            tools:node="merge" />
 
     </application>
 
