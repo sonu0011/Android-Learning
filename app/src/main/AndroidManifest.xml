@@ -3,11 +3,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.sonu.learning">
 
+    <!--
+         The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
+         Google Maps Android API v2, but you must specify either coarse or fine
+         location permissions for the "MyLocation" functionality.
+    -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
     <permission android:name="com.sonu.learning.CUSTOM_PERMISSION" /> <!-- required by sender app for sending broadcast -->
     <!-- required for jobIntentService for executing service while device in doze mode ie.when the screen is off -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" /> <!-- ACCESS COURSE LOCATION -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:name=".App"
@@ -17,17 +25,37 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Learning">
-        <service
-            android:name=".services.MyIntentService"
-            android:exported="false" />
 
-        <activity android:name=".services.ServiceActivity">
+        <!--
+             The API key for Google Maps-based APIs is defined as a string resource.
+             (See the file "res/values/google_maps_api.xml").
+             Note that the API key is linked to the encryption key used to sign the APK.
+             You need a different API key for each encryption key, including the release key that is used to
+             sign the APK for publishing.
+             You can define the keys for the debug and release targets in src/debug/ and src/release/.
+        -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+
+        <activity
+            android:name=".location.MapsActivity"
+            android:label="@string/title_activity_maps">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".location.LocationActivity">
+        </activity>
+        <activity android:name=".activityFragments.ExampleActivity" />
+
+        <service
+            android:name=".services.MyIntentService"
+            android:exported="false" />
+
+        <activity android:name=".services.ServiceActivity"></activity>
         <activity android:name=".BroadcastExamples" />
         <activity android:name=".ThreadingExamples" />
         <activity android:name=".LoaderExample" />
@@ -50,13 +78,10 @@
         <service android:name=".services.MyForegroundService" />
         <service
             android:name=".postOreo.MyJobIntentService"
-            android:permission="android.permission.BIND_JOB_SERVICE" />
-        <!--            android:foregroundServiceType="camera|location"-->
-
+            android:permission="android.permission.BIND_JOB_SERVICE" /> <!-- android:foregroundServiceType="camera|location" -->
         <service
             android:name=".services.ServerSideService"
             android:exported="true" />
-
         <service
             android:name=".postOreo.MyJobService"
             android:permission="android.permission.BIND_JOB_SERVICE" />
@@ -65,7 +90,6 @@
             android:foregroundServiceType="location|dataSync"
             tools:ignore="Instantiatable"
             tools:node="merge" />
-
     </application>
 
 </manifest>
