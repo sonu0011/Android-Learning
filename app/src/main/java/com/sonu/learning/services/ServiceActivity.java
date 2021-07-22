@@ -41,7 +41,7 @@ public class ServiceActivity extends AppCompatActivity {
     private MusicBindService service;
     private WorkManager workManager;
     private WorkRequest workRequest1, workRequest2, workRequest3;
-    int count = 0;
+    int count = 0; //intialize with zero
     private ServiceConnection serviceConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder binder) {
