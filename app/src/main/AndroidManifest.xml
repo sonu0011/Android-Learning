@@ -90,6 +90,7 @@
             android:foregroundServiceType="location|dataSync"
             tools:ignore="Instantiatable"
             tools:node="merge" />
+        <service android:name=".location.AddressFetchService"/>
     </application>
 
 </manifest>
