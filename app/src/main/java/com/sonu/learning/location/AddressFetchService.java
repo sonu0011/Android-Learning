@@ -48,7 +48,7 @@ public class AddressFetchService extends IntentService {
             return;
         }
 
-        //reverse geocoding gettig address from lat and long        
+        //reverse geocoding gettig address from lat and long        hsdfh
         Geocoder geocoder = new Geocoder(this, Locale.getDefault());
         List<Address> addresses = null;
         try {
